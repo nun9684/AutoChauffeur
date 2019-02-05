@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Devmhee</title>
+</head>
+
+<script type="text/javascript">
+
+function http_get(path)
+{
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", path, false); // Asynchronous False = Synchronous
+  xhttp.send();
+  if(xhttp.readyState == 4 && xhttp.status == 200)
+  {
+    return xhttp.responseText;
+  }
+}
+
+function go()
+{
+	http_get("/Go");
+}
+
+function breaks()
+{
+	http_get("/Break");
+}
+
+function right()
+{
+	http_get("/RIGHT");
+}
+
+function left()
+{
+	http_get("/LEFT");
+}
+
+function calibrate()
+{
+	http_get("/Calibrate");
+}
+
+function start_Read()
+{
+	setInterval(read_angle, 1000);
+}
+
+async function read_angle()
+{
+	var angle = await http_get("/deg");
+	document.getElementById("degree").innerHTML = angle;
+}
+</script>
+
+<body onload = start_Read()>
+	<center>
+	<img src="logo.png" height="600" width="700">
+	<div style="font-size:72px;font-weight: bold;">WiFi Motor Drive</div>
+	</br></br></br>
+	<p id="degree" style="font-size:72px;font-weight:normal;"></p>
+	<button style="font-size:64px;margin-right:20px;" onclick="go()">Go</button>
+	<button style="font-size:64px;margin-right:20px;" onclick="left()">Left</button>
+	<button style="font-size:64px;margin-right:20px;" onclick="right()">Right</button>
+	<button style="font-size:64px;" onclick="breaks()">Break</button>
+	</br></br><button style="font-size:64px;" onclick="calibrate()">Calibrate</button></br>
+	</center>
+</body>
+</html>
